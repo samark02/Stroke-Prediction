@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stroke Predict Model</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+  <div class="login">
+    <h1>Stroke Prediction</h1>
+
+    <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post">
+      <input type="text" name="age" id="age" placeholder="Your Age" required>
+      <!-- <input type="text" name="heart_d_p" placeholder="Do you have any Heart Disease ?" required> -->
+      <select id="heartd" required name="heart_d_p">
+        <option hidden>Do you have any Heart Disease ?</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+      <input type="text" name="bmi_p" placeholder="Your BMI" required>
+      <!-- <input type="text" name="smoke_p" placeholder="smoking(0 - 3)" required="required" /> -->
+      <select required name="smoke_p">
+        <option hidden>Do you smoke ?</option>
+        <option value="1">Never smoked</option>
+        <option value="0">Smokes</option>
+        <option value="3">Formerly smoked</option>
+        <option value="2">Unknown</option>
+      </select>
+
+      <button type="submit" id="predict_btn" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+    <br>
+    <br>
+    {{ prediction_text }}
+
+
+
+  </div>
+  <script>
+    let text='{{prediction_text}}';
+    if (text == 'You are likely to have a stroke') {
+      document.body.style.animation='';
+      document.body.style.background = '-webkit-radial-gradient(0% 100%, ellipse cover, rgba(255, 0, 0, 0.3) 10%,rgba(229, 229, 235, 0) 40%), -webkit-linear-gradient(top,  rgba(158, 51, 51, 0.25) 0%,rgba(206, 0, 0, 0.4) 100%), -webkit-linear-gradient(-45deg,  #725859 0%,#9c7070 100%)';
+    }
+    if (text == 'You are not likely to have a stroke') {
+      document.body.style.animation='';
+      document.body.style.background = '-webkit-radial-gradient(0% 100%, ellipse cover, rgba(255, 255, 255, 0.3) 10%,rgba(229, 229, 235, 0) 40%), -webkit-linear-gradient(top,  rgba(236, 237, 234, 0.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #5367a2 0%,#092756 100%)';
+    }
+    
+  </script>
+</body>
+
+</html>
